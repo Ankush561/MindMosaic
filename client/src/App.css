@@ -1,0 +1,54 @@
+.app-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .graph-container {
+    flex: 3;
+    position: relative;
+  }
+  
+  .editor-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-left: 1px solid #dee2e6;
+    overflow-y: auto;
+  }
+  
+  .editor-panel {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+  
+  .save-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .save-btn:hover {
+    background-color: #45a049;
+  }

@@ -1,0 +1,29 @@
+.graph-svg {
+    width: 100%;
+    height: 100vh;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+  }
+  
+  .node circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .node circle:hover {
+    stroke: #495057;
+    stroke-width: 2px;
+    r: 12;
+  }
+  
+  .link {
+    stroke: #adb5bd;
+    stroke-opacity: 0.6;
+  }
+  
+  .node text {
+    pointer-events: none;
+    font: 10px sans-serif;
+  }
