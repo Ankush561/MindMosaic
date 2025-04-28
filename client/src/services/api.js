@@ -14,3 +14,4 @@ export default {
   createEdge: (edge) => api.post('/edges', edge),
   // Add other API calls as needed
 };
+
