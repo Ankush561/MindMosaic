@@ -10,19 +10,22 @@ const NodeEditor = ({ node, onSave, onDelete, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('Form submitted!'); // Add this
     
-    const tagsArray = formData.tags
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0);
+    const tagsArray = formData.tags.split(',').map(tag => tag.trim());
+    console.log('Data being sent:', { // Add this
+      ...node,
+      ...formData,
+      tags: tagsArray
+    });
     
     onSave({
-      ...node, // Preserve existing _id if editing
-      title: formData.title,
-      content: formData.content,
+      ...node,
+      ...formData,
       tags: tagsArray
     });
   };
+  
   return (
     <div className="editor-panel">
       <h2>{node?._id ? 'Edit Node' : 'Create Node'}</h2>

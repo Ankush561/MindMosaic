@@ -7,8 +7,11 @@ const edgeRoutes = require('./routes/edgeRoutes');  // This should now work
 
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:3000', // Your React app's URL
+  methods: ['GET', 'POST', 'PATCH', 'DELETE']
+}));
 // Middleware
-app.use(cors());
 app.use(express.json());
 
 // Routes

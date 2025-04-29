@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import NodeEditor from './components/NodeEditor';
-import Graph from './components/Graph.js';
-import api from './services/api';
+import Graph from './components/graph.js';
+import NodeEditor from './components/NodeEditor.js';
+import api from './services/api.js';
 import './App.css';
 
 function App() {
@@ -18,10 +18,15 @@ function App() {
         api.getNodes(),
         api.getEdges()
       ]);
-      setNodes(nodesRes.data);
-      setEdges(edgesRes.data);
+      setNodes([...nodesRes.data]);
+      setEdges([...edgesRes.data]);
+      
+      console.log('Data refreshed:', {
+        nodes: nodesRes.data.length,
+        edges: edgesRes.data.length
+      });
     } catch (err) {
-      console.error('Error fetching data:', err);
+      console.error('Refresh failed:', err);
     }
   };
 
@@ -29,38 +34,62 @@ function App() {
     setSelectedNode(null);
     setIsCreating(true);
   };
-
+  
+  // const handleSave = async (nodeData) => {
+  //   try {
+  //     console.log('Saving node:', nodeData); // Debug log
+      
+  //     if (nodeData._id) {
+  //       // Update existing node
+  //       await api.updateNode(nodeData._id, {
+  //         title: nodeData.title,
+  //         content: nodeData.content,
+  //         tags: nodeData.tags
+  //       });
+  //     } else {
+  //       // Create new node
+  //       await api.createNode({
+  //         title: nodeData.title,
+  //         content: nodeData.content,
+  //         tags: nodeData.tags
+  //       });
+  //     }
+      
+  //     // Refresh data and reset UI
+  //     await fetchData();
+  //     setSelectedNode(null);
+  //     setIsCreating(false);
+      
+  //   } catch (err) {
+  //     console.error('Save failed:', err.response?.data || err.message);
+  //     alert(`Save failed: ${err.response?.data?.message || err.message}`);
+  //   }
+  // };
   const handleSave = async (nodeData) => {
+    console.group('Saving Node Process');
     try {
-      console.log('Saving node:', nodeData); // Debug log
+      console.log('Final payload:', JSON.stringify(nodeData, null, 2));
       
-      if (nodeData._id) {
-        // Update existing node
-        await api.updateNode(nodeData._id, {
-          title: nodeData.title,
-          content: nodeData.content,
-          tags: nodeData.tags
-        });
-      } else {
-        // Create new node
-        await api.createNode({
-          title: nodeData.title,
-          content: nodeData.content,
-          tags: nodeData.tags
-        });
-      }
-      
-      // Refresh data and reset UI
+      const response = nodeData._id
+        ? await api.updateNode(nodeData._id, nodeData)
+        : await api.createNode(nodeData);
+
+        alert(`✅ Node ${nodeData._id ? 'updated' : 'created'}! ID: ${response.data._id}`);
+
+      console.log('Save successful!', response.data);
       await fetchData();
+    } catch (err) {
+      console.error('Save failed:', {
+        error: err,
+        request: err.config,
+        response: err.response?.data
+      });
+    } finally {
+      console.groupEnd();
       setSelectedNode(null);
       setIsCreating(false);
-      
-    } catch (err) {
-      console.error('Save failed:', err.response?.data || err.message);
-      alert(`Save failed: ${err.response?.data?.message || err.message}`);
     }
   };
-
   const handleDelete = async (id) => {
     try {
       await api.deleteNode(id);
@@ -75,8 +104,8 @@ function App() {
     <div className="app-container">
       <div className="graph-container">
         <Graph 
-          nodes={nodes} 
-          edges={edges} 
+          nodes={nodes || []}       // Fallback empty array
+          edges={edges || []}       // Fallback empty array
           onNodeClick={setSelectedNode}
           onCreateNew={handleCreateNew}
         />
@@ -101,6 +130,19 @@ function App() {
       </div>
     </div>
   );
+  useEffect(() => {
+    const testSave = async () => {
+      const testNode = {
+        title: "Test Node",
+        content: "Test Content",
+        tags: ["test"]
+      };
+      console.log("Testing API...");
+      await api.createNode(testNode);
+    };
+    testSave();
+  }, []);
 }
+// Temporary test in App.js
 
 export default App;

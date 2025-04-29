@@ -2,34 +2,62 @@ import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import './Graph.css';
 
-const Graph = ({ nodes, edges, onNodeClick, onCreateNew }) => {
+const Graph = ({ nodes = [], edges = [], onNodeClick, onCreateNew }) => {
   const svgRef = useRef();
 
+  console.log('Graph received:', { 
+    nodeCount: nodes.length,
+    edgeCount: edges.length 
+  });
+
   useEffect(() => {
-    if (!nodes.length) return;
+    if (!nodes || nodes.length === 0) return;
     
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
+    const width = svgRef.current.clientWidth;
+    const height = svgRef.current.clientHeight;
 
+    // Create a force simulation
     const simulation = d3.forceSimulation(nodes)
       .force('charge', d3.forceManyBody().strength(-100))
-      .force('center', d3.forceCenter(300, 300));
+      .force('center', d3.forceCenter(width / 2, height / 2));
 
-    svg.selectAll('circle')
+    // Draw edges (if any)
+    if (edges.length > 0) {
+      svg.selectAll('line')
+        .data(edges)
+        .enter()
+        .append('line')
+        .attr('stroke', 'gray')
+        .attr('stroke-width', 2);
+    }
+
+    // Draw nodes
+    const nodeElements = svg.selectAll('circle')
       .data(nodes)
       .enter()
       .append('circle')
       .attr('r', 10)
-      .attr('fill', 'steelblue');
+      .attr('fill', 'steelblue')
+      .on('click', (event, d) => {
+        if (onNodeClick) onNodeClick(d);
+      });
 
     simulation.on('tick', () => {
-      svg.selectAll('circle')
+      nodeElements
         .attr('cx', d => d.x)
         .attr('cy', d => d.y);
+
+      svg.selectAll('line')
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
     });
 
     return () => simulation.stop();
-  }, [nodes]);
+  }, [nodes, edges, onNodeClick]);
 
   return (
     <div className="graph-wrapper">
@@ -41,4 +69,4 @@ const Graph = ({ nodes, edges, onNodeClick, onCreateNew }) => {
   );
 };
 
-export default Graph; // This line is critical
+export default Graph;
