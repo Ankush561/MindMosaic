@@ -1,54 +1,332 @@
+/* App.css */
+
+/* Remove body styles from here if they are now in index.css */
+/* body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+} */
+
+/* Default for .app-container: allows scrolling (for FileList view) */
 .app-container {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .graph-container {
-    flex: 3;
-    position: relative;
-  }
-  
-  .editor-container {
-    flex: 1;
-    padding: 20px;
-    background-color: #fff;
-    border-left: 1px solid #dee2e6;
-    overflow-y: auto;
-  }
-  
-  .editor-panel {
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-  }
-  
-  .save-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .save-btn:hover {
-    background-color: #45a049;
-  }
+  min-height: 100vh; 
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; 
+  background-color: #EFF3EE; /* Very Light Sage Tint - Ensure consistency */
+}
+
+/* Styles for .app-container when Graph view is active: no scrolling, fixed height */
+.app-container.graph-view-active {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Project Title Header */
+.project-title-header {
+  background: #EFF3EE; /* Cream background - to help light green logo stand out */
+  /* color: #2E7D32; */ /* Text color no longer needed directly here */
+  padding: 0.6rem 1.5rem; /* Slightly increased padding for a taller logo */
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-bottom: 2px solid #2E7D32; /* Forest Green border */
+  z-index: 1050;
+  position: relative;
+  flex-shrink: 0;
+  display: flex; /* For centering the logo */
+  justify-content: center; /* Center logo horizontally */
+  align-items: center; /* Center logo vertically */
+}
+
+.project-logo {
+  width: 10px; /* Set a specific width */
+  height: auto; /* Allow height to adjust automatically to maintain aspect ratio */
+  display: block; /* Helps with layout and removes extra space below image */
+  /* max-width: 100%; */ /* This is implicitly handled by setting a specific width smaller than the container */
+}
+
+/* Contextual Header (for selected file name) */
+.header {
+  padding: 0.8rem 1.5rem; 
+  background-color: #A8C3A4; /* Sage background */
+  border-bottom: 1px solid #8FBC8F; /* Darker Sage/Green border */
+  color: #333333; /* Charcoal text for file name */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+  flex-shrink: 0; 
+}
+
+.header h2 {
+  margin: 0;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  font-size: 1.3rem; 
+  font-weight: 600; 
+  color: #333333; 
+  flex: 1;
+  text-align: center; 
+}
+
+/* Unified Button Styles */
+.button,
+.back-btn,
+.edit-file-btn {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Primary Button Style */
+.button.primary,
+.edit-file-btn,
+.back-btn { /* Added .back-btn to primary style */
+  background-color: #2E7D32; /* Forest Green */
+  color: #FAF3E0; /* Cream text */
+  border-color: #2E7D32;
+}
+
+.button.primary:hover,
+.edit-file-btn:hover,
+.back-btn:hover { /* Added .back-btn to primary hover style */
+  background-color: #1B5E20; /* Darker Forest Green */
+  border-color: #1B5E20;
+  color: #FAF3E0;
+}
+
+/* Secondary/Default Button Style */
+.button.secondary { /* .back-btn removed from here */
+  background-color: #A8C3A4; /* Sage */
+  color: #333333; /* Charcoal text */
+  border-color: #A8C3A4;
+}
+
+.button.secondary:hover { /* .back-btn removed from here */
+  background-color: #8FBC8F; /* Darker Sage */
+  border-color: #8FBC8F;
+  color: #333333;
+}
+
+/* Accent Button Style (for Connect Nodes) */
+.button.accent {
+  background-color: #B87333; /* Copper */
+  color: #FAF3E0; /* Cream text */
+  border-color: #B87333;
+}
+
+.button.accent:hover {
+  background-color: #A0522D; /* Darker Copper/Sienna */
+  border-color: #A0522D;
+  color: #FAF3E0;
+}
+
+.button.accent.active {
+  background-color: #A0522D; /* Darker Copper/Sienna for active state */
+  border-color: #8B4513; /* Even darker copper/brown border for active */
+  color: #FFFFFF; /* Pure White text for active for max contrast */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15); /* Inner shadow for pressed look */
+}
+
+/* Danger Button Style */
+.button.danger {
+  background-color: #B87333; /* Copper for danger/delete */
+  color: #FAF3E0; /* Cream text */
+  border-color: #B87333;
+}
+.button.danger:hover {
+  background-color: #A0522D; /* Darker Copper/Sienna */
+  border-color: #A0522D;
+  color: #FAF3E0;
+}
+
+/* Special positioning for header buttons if needed */
+.edit-file-btn {
+  margin-left: auto; 
+}
+
+/* .main-content needs to fill remaining space when graph view is active and constrained */
+.app-container.graph-view-active .main-content {
+  flex: 1; 
+  display: flex;
+  position: relative; /* This can likely stay or be removed if not needed without absolute header */
+  overflow: hidden; /* Re-evaluate if this is needed without the absolute header pulling it up */
+  height: 100%; 
+}
+
+/* Default .main-content (when FileList is shown, not explicitly constrained by parent height) */
+.main-content { 
+  flex: 1; 
+  display: flex;
+  position: relative; 
+}
+
+.graph-container { /* This applies in both scenarios, takes available flex space */
+  flex: 1; 
+  position: relative; 
+  overflow: hidden; 
+  background-color: #EFF3EE; /* Very Light Sage Tint for graph area as well */
+}
+
+/* .editor-container needs to manage its height and scrolling correctly in graph view */
+.app-container.graph-view-active .editor-container {
+  height: 100%; /* Take full height of the .main-content (which is flexed) */
+  overflow-y: auto; /* Scroll internally if content exceeds its height */
+  flex-shrink: 0; /* Don't shrink in width */
+  /* Add absolute positioning */
+  position: absolute;
+  right: 0; /* Position it to the right */
+  top: 0;
+  bottom: 0;
+  z-index: 10; /* Ensure it's above the graph container */
+}
+
+.editor-container { /* Default styles, some might be overridden by the above */
+  width: 0;
+  background-color: #E0E7D4; /* Lighter Sage or very light green-tinted cream for editor panel */
+  border-left: 1px solid #A8C3A4; /* Sage border */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Added padding to transition */
+  overflow-x: hidden;
+  padding: 0; 
+  box-shadow: -2px 0 5px rgba(0,0,0,0.05); 
+  /* flex-shrink: 0; Remove this as it's not needed for absolute positioning */
+  /* Ensure default state is also absolutely positioned if it matters for initial render/transitions */
+  position: absolute; 
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10; 
+}
+
+.editor-container.visible {
+  width: 380px; 
+  padding: 1.5rem; 
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column; /* Allow text to stack */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #556B2F; /* Dark Olive Green / Darker Sage for empty state text */
+  text-align: center;
+  padding: 1rem;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+
+/* Form Group & Input Styling in Editor Panel */
+.editor-panel { /* This class might be inside NodeEditor.js, ensure it's targeted */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between form groups */
+}
+
+.form-group {
+  margin-bottom: 0; /* Remove if using gap in .editor-panel */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem; /* More space */
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #333333; /* Charcoal */
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem; /* Increased padding for better touch/click */
+  border: 1px solid #A8C3A4; /* Sage border */
+  border-radius: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background-color: #FFFFFF; /* White background for inputs for clarity */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: #333333; /* Charcoal text in input */
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+  border-color: #2E7D32; /* Forest Green focus border */
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25); /* Forest Green focus shadow */
+}
+
+.form-group textarea {
+  min-height: 100px; /* Increased min-height */
+  resize: vertical;
+}
+
+/* Button group styling for editor actions */
+.editor-actions { /* Assuming a wrapper for editor buttons */
+  display: flex;
+  flex-direction: column; /* Stack buttons */
+  gap: 0.75rem; /* Space between stacked buttons */
+  margin-top: 1rem; /* Space above buttons */
+}
+
+.editor-actions .button { /* Make editor buttons full width */
+  width: 100%;
+}
+
+/* Specific styling for save, cancel, delete if they don't use .button.primary etc. */
+/* .save-btn, .cancel-btn, .delete-btn can be removed if .button classes are used in JSX */
+
+.file-editor-container {
+  flex: 1;
+  display: flex; /* For centering the inner form */
+  justify-content: center;
+  align-items: flex-start; /* Align form to top */
+  padding: 2rem;
+  overflow-y: auto; /* Allow scrolling if content is long */
+  background-color: #EFF3EE; /* Very Light Sage Tint for consistency */
+}
+
+/* Assuming FileEditor has an inner form or content wrapper */
+.file-editor-form { /* You'd add this class to the form inside FileEditor.js */
+  background: #FFFFFF; /* White card for file editor form */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; /* Max width for the form */
+  border: 1px solid #A8C3A4; /* Sage border */
+}
+
+.file-editor-form h3 {
+  font-weight: 600;
+  color: #2E7D32; /* Forest Green title */
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Updated Project Title Header - Striking & Cool */
+/* .project-title-header {
+  background: linear-gradient(135deg, #2A2A72, #A40E4C); /* Deep Space Blue to Vibrant Magenta gradient */
+  /* color: #F0F4F8; /* Very light, cool off-white/silver text */
+  /* padding: 1.2rem 1.5rem; 
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Slightly deeper shadow for more definition */
+  /* z-index: 1050;
+  position: relative;
+  flex-shrink: 0; /* Keep: Prevents this header from shrinking */
+
+
+
+/* Contextual Header (for selected file name) */

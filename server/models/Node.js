@@ -14,6 +14,16 @@ const NodeSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
+  position: {
+    x: {
+      type: Number,
+      default: null
+    },
+    y: {
+      type: Number,
+      default: null
+    }
+  },
   createdAt: {
     type: Date,
     default: Date.now

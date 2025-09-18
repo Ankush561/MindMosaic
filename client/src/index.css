@@ -1,17 +1,55 @@
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #EFF3EE; /* Very Light Sage Tint - New page background */
+    color: #333333; /* Charcoal - Default text color */
+    line-height: 1.6; /* Improved line spacing */
   }
   
+  /* Optional: Import a web font like Inter if you like it */
+  /* You would typically add the @import or <link> in your HTML public/index.html */
+  /* For example, in public/index.html <head>: */
+  /* <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> */
+  
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; /* Modern monospaced stack */
+    background-color: #e9ecef; /* Subtle background for code blocks/inline code */
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 90%;
   }
   
   * {
     box-sizing: border-box;
+    margin: 0; /* Reset margin for all elements by default */
+    padding: 0; /* Reset padding for all elements by default */
+  }
+  
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+  
+  a {
+    color: #2E7D32; /* Forest Green for links */
+    text-decoration: none; /* Remove default underline */
+    transition: color 0.2s ease-in-out; /* Smooth color transition on hover */
+  }
+  
+  a:hover {
+    color: #1B5E20; /* Darker Forest Green on hover */
+    text-decoration: underline; /* Add underline on hover for clarity */
+  }
+  
+  /* Utility class for focus rings - good for accessibility */
+  .focus-ring:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
   }

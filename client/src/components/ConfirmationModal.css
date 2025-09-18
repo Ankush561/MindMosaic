@@ -1,0 +1,69 @@
+/* ConfirmationModal.css */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Slightly darker Charcoal tint for backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100; /* Higher than project title header */
+  opacity: 0;
+  animation: fadeInBackdrop 0.3s forwards;
+}
+
+.modal-content {
+  background-color: #FAF3E0; /* Cream background for modal content */
+  padding: 2rem; /* More padding */
+  border-radius: 8px;
+  border: 1px solid #A8C3A4; /* Sage border */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 450px; /* Slightly wider for comfort */
+  text-align: center;
+  transform: scale(0.9);
+  opacity: 0;
+  animation: zoomInModal 0.3s 0.1s forwards;
+}
+
+.modal-message {
+  font-size: 1.1rem; /* Slightly larger message text */
+  color: #333333; /* Charcoal text for message */
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-around; /* Space out buttons */
+  gap: 1rem; /* Gap between buttons */
+}
+
+.modal-button {
+  padding: 0.7rem 1.5rem; /* Larger buttons */
+  font-size: 0.95rem;
+  /* Inherits .button styles from App.css for primary, secondary, danger */
+  /* We can add more specific overrides if needed */
+  min-width: 120px; /* Ensure buttons have a decent minimum width */
+  /* Buttons like "Confirm", "Cancel" should use .button.danger, .button.secondary from App.css */
+  /* Example: Confirm button might be .button.primary or .button.danger depending on action */
+  /* Cancel button usually .button.secondary */
+}
+
+/* Animations */
+@keyframes fadeInBackdrop {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomInModal {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+} 
